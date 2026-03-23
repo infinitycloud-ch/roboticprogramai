@@ -1,0 +1,58 @@
+# macOS
+.DS_Store
+._*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+*.whl
+
+# Environment & secrets
+.env
+.env.*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*~
+
+# Isaac Sim / Isaac Lab
+.build/
+_isaac_sim/
+*.usd.bak
+
+# ROS2
+build/
+install/
+log/
+
+# ML models (too large for git)
+*.pt
+*.pth
+*.onnx
+*.gguf
+*.safetensors
+*.bin
+
+# Database
+*.db
+*.sqlite
+
+# Agent infrastructure
+agent_tools/
+agent_logs/
+.claude/
+CLAUDE.md
+*.command
+
+# Logs
+*.log
+
+# Misc
+dist/
+node_modules/

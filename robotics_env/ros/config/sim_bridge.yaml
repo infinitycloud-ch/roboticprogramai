@@ -1,0 +1,18 @@
+# ROS2 parameters for Isaac Sim bridge nodes
+/**:
+  ros__parameters:
+    use_sim_time: true
+
+sim_adapter:
+  ros__parameters:
+    cmd_vel_topic: /cmd_vel
+    odom_topic: /odom
+    joint_states_topic: /joint_states
+    imu_topic: /imu/data
+    clock_topic: /clock
+
+locomotion_controller:
+  ros__parameters:
+    policy_path: locomotion/policies/go2_flat.pt
+    control_freq_hz: 50
+    joint_commands_topic: /joint_commands

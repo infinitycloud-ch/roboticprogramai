@@ -1,0 +1,31 @@
+[project]
+name = "robotics-env"
+version = "0.1.0"
+description = "RoboticProgramAI - Robotics Environment for Unitree Go2 EDU"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "torch",
+]
+
+[project.optional-dependencies]
+ros = []  # rclpy installed via ROS2 Humble system packages
+sim = [
+    "isaacsim==4.5.0",
+    "isaaclab==2.1.0",
+]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+]
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[tool.setuptools.packages.find]
+include = ["agent*", "adapters*", "locomotion*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

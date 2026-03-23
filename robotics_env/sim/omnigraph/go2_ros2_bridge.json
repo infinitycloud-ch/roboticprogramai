@@ -1,0 +1,38 @@
+{
+  "_comment": "OmniGraph config pour Go2 ROS2 bridge - à exporter depuis Isaac Sim 4.5.0",
+  "nodes": {
+    "on_playback_tick": {
+      "type": "omni.graph.action.OnPlaybackTick"
+    },
+    "read_sim_time": {
+      "type": "omni.isaac.core_nodes.IsaacReadSimulationTime"
+    },
+    "publish_tf": {
+      "type": "omni.isaac.ros2_bridge.ROS2PublishTransformTree",
+      "topic": "/tf"
+    },
+    "publish_odom": {
+      "type": "omni.isaac.ros2_bridge.ROS2PublishOdometry",
+      "topic": "/odom"
+    },
+    "publish_joint_states": {
+      "type": "omni.isaac.ros2_bridge.ROS2PublishJointState",
+      "topic": "/joint_states"
+    },
+    "publish_clock": {
+      "type": "omni.isaac.ros2_bridge.ROS2PublishClock",
+      "topic": "/clock"
+    },
+    "publish_imu": {
+      "type": "omni.isaac.ros2_bridge.ROS2PublishImu",
+      "topic": "/imu/data"
+    },
+    "subscribe_joint_commands": {
+      "type": "omni.isaac.ros2_bridge.ROS2SubscribeFloat64MultiArray",
+      "topic": "/joint_commands"
+    },
+    "articulation_controller": {
+      "type": "omni.isaac.core_nodes.IsaacArticulationController"
+    }
+  }
+}

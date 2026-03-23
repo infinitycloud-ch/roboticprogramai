@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoboticProgramAI — Dashboard Sprint 2</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 30px 40px;
+            border-bottom: 2px solid #00d4ff33;
+        }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        .header .subtitle {
+            color: #8892b0;
+            font-size: 14px;
+        }
+        .header .date {
+            color: #64ffda;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        /* Sprint tabs */
+        .sprint-tabs {
+            display: flex;
+            padding: 0 40px;
+            background: #0d0d15;
+            gap: 4px;
+            padding-top: 15px;
+        }
+        .sprint-tab {
+            padding: 10px 24px;
+            border-radius: 8px 8px 0 0;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .sprint-tab.completed {
+            background: #12121c;
+            color: #64ffda;
+            border: 1px solid #64ffda33;
+            border-bottom: none;
+        }
+        .sprint-tab.active {
+            background: #1a1a2e;
+            color: #ffd700;
+            border: 1px solid #ffd70055;
+            border-bottom: 2px solid #ffd700;
+        }
+
+        /* Progress bar */
+        .progress-section {
+            padding: 25px 40px;
+            background: #0d0d15;
+        }
+        .progress-bar-container {
+            background: #1a1a2e;
+            border-radius: 12px;
+            height: 32px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 12px;
+            transition: width 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+        .progress-bar-fill.s1 {
+            background: linear-gradient(90deg, #64ffda, #00d4ff);
+        }
+        .progress-bar-fill.s2 {
+            background: linear-gradient(90deg, #7b2ff7, #ffd700);
+        }
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #8892b0;
+        }
+
+        /* Main layout */
+        .main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 25px 40px;
+        }
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* Cards */
+        .card {
+            background: #12121c;
+            border: 1px solid #1e1e30;
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .card h2 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card h2 .icon { font-size: 18px; }
+        .card h3 {
+            font-size: 13px;
+            color: #8892b0;
+            margin: 16px 0 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Task list */
+        .task {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            transition: background 0.2s;
+        }
+        .task:hover { background: #1a1a2e; }
+        .task.done { color: #64ffda; }
+        .task.done .task-text { text-decoration: line-through; opacity: 0.7; }
+        .task.todo { color: #8892b0; }
+        .task.active { color: #ffd700; background: #1a1a2e; border: 1px solid #ffd70033; }
+        .task .check { font-size: 16px; flex-shrink: 0; }
+        .task .owner {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .owner-strat { background: #7b2ff722; color: #b47bff; border: 1px solid #7b2ff744; }
+        .owner-dev { background: #00d4ff22; color: #00d4ff; border: 1px solid #00d4ff44; }
+        .owner-ceo { background: #ffd70022; color: #ffd700; border: 1px solid #ffd70044; }
+        .owner-spark { background: #ff6b3522; color: #ff6b35; border: 1px solid #ff6b3544; }
+
+        /* Phase badge */
+        .phase-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .phase-1 { background: #ff6b3522; color: #ff6b35; border: 1px solid #ff6b3544; }
+        .phase-2 { background: #b47bff22; color: #b47bff; border: 1px solid #b47bff44; }
+        .phase-3 { background: #ffd70022; color: #ffd700; border: 1px solid #ffd70044; }
+        .phase-4 { background: #64ffda22; color: #64ffda; border: 1px solid #64ffda44; }
+
+        /* Stack table */
+        .stack-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        .stack-table th {
+            text-align: left;
+            padding: 8px 12px;
+            border-bottom: 1px solid #1e1e30;
+            color: #8892b0;
+            font-weight: 500;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .stack-table td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #1e1e3044;
+        }
+        .stack-table .version {
+            color: #64ffda;
+            font-family: 'SF Mono', monospace;
+            font-weight: 600;
+        }
+        .stack-table .new-tag {
+            font-size: 9px;
+            background: #ffd70033;
+            color: #ffd700;
+            padding: 1px 6px;
+            border-radius: 4px;
+            margin-left: 6px;
+            font-weight: 700;
+        }
+
+        /* Architecture diagram */
+        .arch-diagram {
+            padding: 20px;
+        }
+        .arch-layer {
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        .arch-layer h3 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+        .layer-cerveau {
+            background: linear-gradient(135deg, #7b2ff715, #7b2ff708);
+            border: 1px solid #7b2ff744;
+        }
+        .layer-cerveau h3 { color: #b47bff; }
+        .layer-interface {
+            background: linear-gradient(135deg, #00d4ff15, #00d4ff08);
+            border: 1px solid #00d4ff44;
+        }
+        .layer-interface h3 { color: #00d4ff; }
+        .layer-locomoteur {
+            background: linear-gradient(135deg, #ffd70015, #ffd70008);
+            border: 1px solid #ffd70044;
+        }
+        .layer-locomoteur h3 { color: #ffd700; }
+        .layer-monde {
+            background: linear-gradient(135deg, #64ffda15, #64ffda08);
+            border: 1px solid #64ffda44;
+        }
+        .layer-monde h3 { color: #64ffda; }
+
+        .layer-components {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .component {
+            background: #0a0a0f88;
+            border: 1px solid #ffffff15;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 12px;
+            font-family: 'SF Mono', monospace;
+        }
+        .component.sprint2 {
+            border-color: #ffd70055;
+            background: #ffd70008;
+        }
+        .component.sprint2::after {
+            content: " S2";
+            font-size: 9px;
+            color: #ffd700;
+            font-weight: 700;
+        }
+
+        .arrow-down {
+            text-align: center;
+            color: #ffffff33;
+            font-size: 20px;
+            margin: 4px 0;
+            letter-spacing: -2px;
+        }
+        .arrow-label {
+            text-align: center;
+            font-size: 11px;
+            color: #8892b0;
+            margin: 2px 0 6px;
+            font-family: 'SF Mono', monospace;
+        }
+
+        /* Agent status */
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        .agent-card {
+            background: #0a0a0f;
+            border: 1px solid #1e1e30;
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+        .agent-card .agent-name {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .agent-card .agent-status {
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+        .status-active { background: #64ffda22; color: #64ffda; border: 1px solid #64ffda44; }
+        .status-waiting { background: #ffd70022; color: #ffd700; border: 1px solid #ffd70044; }
+        .agent-card .agent-task {
+            font-size: 11px;
+            color: #8892b0;
+            line-height: 1.4;
+        }
+
+        /* Network diagram */
+        .network {
+            padding: 10px;
+        }
+        .network-node {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: #0a0a0f;
+            border: 1px solid #1e1e30;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+        .network-node .node-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .node-spark .node-icon { background: #64ffda22; border: 1px solid #64ffda44; }
+        .node-mac .node-icon { background: #7b2ff722; border: 1px solid #7b2ff744; }
+        .node-vp .node-icon { background: #00d4ff22; border: 1px solid #00d4ff44; }
+        .node-info {
+            flex: 1;
+        }
+        .node-info .name { font-weight: 600; font-size: 14px; }
+        .node-info .details { font-size: 11px; color: #8892b0; margin-top: 2px; }
+        .node-info .details span { color: #64ffda; }
+
+        .network-link {
+            text-align: center;
+            padding: 4px;
+            font-size: 11px;
+            color: #8892b0;
+            font-family: 'SF Mono', monospace;
+        }
+        .network-link .protocol { color: #00d4ff; }
+
+        /* Data flow (Sprint 2 specific) */
+        .dataflow {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            padding: 16px;
+            background: #0a0a0f;
+            border-radius: 10px;
+            border: 1px solid #1e1e30;
+        }
+        .dataflow .df-node {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-family: 'SF Mono', monospace;
+            font-weight: 600;
+        }
+        .df-groq { background: #b47bff22; color: #b47bff; border: 1px solid #b47bff44; }
+        .df-monocli { background: #ffd70022; color: #ffd700; border: 1px solid #ffd70044; }
+        .df-sim { background: #00d4ff22; color: #00d4ff; border: 1px solid #00d4ff44; }
+        .df-loco { background: #ff6b3522; color: #ff6b35; border: 1px solid #ff6b3544; }
+        .df-isaac { background: #64ffda22; color: #64ffda; border: 1px solid #64ffda44; }
+        .df-arrow { color: #ffffff44; font-size: 16px; }
+
+        /* Monorepo tree */
+        .tree {
+            font-family: 'SF Mono', monospace;
+            font-size: 12px;
+            line-height: 1.8;
+            color: #8892b0;
+        }
+        .tree .dir { color: #00d4ff; font-weight: 600; }
+        .tree .file { color: #e0e0e0; }
+        .tree .done-file { color: #64ffda; }
+        .tree .stub-file { color: #ffd700; }
+        .tree .new-file { color: #ff6b35; }
+        .tree .comment { color: #4a4a6a; }
+
+        /* Footer */
+        .footer {
+            padding: 20px 40px;
+            text-align: center;
+            color: #4a4a6a;
+            font-size: 12px;
+            border-top: 1px solid #1e1e30;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <h1>RoboticProgramAI</h1>
+    <div class="subtitle">Unitree Go2 EDU + Isaac Sim 5.1 + ROS2 Jazzy + RL PPO Locomotion</div>
+    <div class="date">Derniere mise a jour : 27 fevrier 2026 — Sprint 2 TERMINE (Go2 marche 0.985m)</div>
+</div>
+
+<!-- Sprint Tabs -->
+<div class="sprint-tabs">
+    <div class="sprint-tab completed">Sprint 1 : Foundation (16/16)</div>
+    <div class="sprint-tab completed">Sprint 2 : Cognitive Awakening (16/16)</div>
+</div>
+
+<!-- Progress -->
+<div class="progress-section">
+    <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 8px;">
+        <span style="font-size: 12px; color: #64ffda; font-weight: 600;">S1</span>
+        <div class="progress-bar-container" style="flex: 1; height: 16px;">
+            <div class="progress-bar-fill s1" style="width: 100%; font-size: 11px;">16/16</div>
+        </div>
+    </div>
+    <div style="display: flex; gap: 12px; align-items: center;">
+        <span style="font-size: 12px; color: #64ffda; font-weight: 600;">S2</span>
+        <div class="progress-bar-container" style="flex: 1; height: 24px;">
+            <div class="progress-bar-fill s1" style="width: 100%; font-size: 11px;">16/16</div>
+        </div>
+    </div>
+    <div class="progress-stats">
+        <span>Sprint 2 : 16/16 taches — TERMINE</span>
+        <span>Go2 marche 0.985m dans Isaac Sim (RL PPO)</span>
+        <span>4 phases | 4 agents | 2 sprints complets</span>
+    </div>
+</div>
+
+<!-- Agent Status -->
+<div class="main">
+    <div class="card full-width">
+        <h2><span class="icon">AGENTS</span></h2>
+        <div class="agents-grid">
+            <div class="agent-card">
+                <div class="agent-name" style="color: #ffd700;">CEO</div>
+                <div class="agent-status status-active">Pilotage</div>
+                <div class="agent-task">Sprint 2 lance<br>4 phases definies</div>
+            </div>
+            <div class="agent-card">
+                <div class="agent-name" style="color: #b47bff;">STRAT</div>
+                <div class="agent-status status-active">Sprint 2 OK</div>
+                <div class="agent-task">Kanban 100%<br>API Contract livre<br>3 ecarts R7 detectes</div>
+            </div>
+            <div class="agent-card">
+                <div class="agent-name" style="color: #00d4ff;">DEV</div>
+                <div class="agent-status status-active">Sprint 2 OK</div>
+                <div class="agent-task">8 iterations launch_scene<br>Locomoteur RL deploye<br>E2E 0.985m PASS</div>
+            </div>
+            <div class="agent-card">
+                <div class="agent-name" style="color: #ff6b35;">SPARK</div>
+                <div class="agent-status status-active">Operationnel</div>
+                <div class="agent-task">Isaac Sim stable<br>Isaac Lab gym env<br>Go2 debout + mobile</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sprint 2 Phase 1 -->
+    <div class="card">
+        <div class="phase-badge phase-1">Phase 1 : Spark Ignition</div>
+        <div class="task todo"><span class="check">&#9744;</span><span class="owner owner-spark">SPARK</span><span class="task-text">Lancer launch_scene.py headless</span></div>
+        <div class="task todo"><span class="check">&#9744;</span><span class="owner owner-spark">SPARK</span><span class="task-text">Valider topics ROS2 (ros2 topic list)</span></div>
+        <div class="task todo"><span class="check">&#9744;</span><span class="owner owner-dev">DEV</span><span class="task-text">Valider FastDDS Mac-Spark</span></div>
+        <div class="task todo"><span class="check">&#9744;</span><span class="owner owner-dev">DEV</span><span class="task-text">hello_robot.py E2E reseau</span></div>
+
+        <div class="phase-badge phase-2" style="margin-top: 20px;">Phase 2 : Jedi Profile</div>
+        <div class="task done"><span class="check">&#10003;</span><span class="owner owner-strat">STRAT</span><span class="task-text">Recherche architecture MonoCLI</span></div>
+        <div class="task todo"><span class="check">&#9744;</span><span class="owner owner-strat">STRAT</span><span class="task-text">Creer profil Jedi Go2 Robotics</span></div>
+        <div class="task todo"><span class="check">&#9744;</span><span class="owner owner-dev">DEV</span><span class="task-text">Skill mono_read_sensors</span></div>
+        <div class="task todo"><span class="check">&#9744;</span><span class="owner owner-dev">DEV</span><span class="task-text">Skill mono_move_robot</span></div>
+        <div class="task todo"><span class="check">&#9744;</span><span class="owner owner-strat">STRAT</span><span class="task-text">Config Groq API dans MonoCLI</span></div>
+    </div>
+
+    <!-- Sprint 2 Phase 3 & 4 -->
+    <div class="card">
+        <div class="phase-badge phase-3">Phase 3 : Premier Playbook</div>
+        <div class="task todo"><span class="check">&#9744;</span><span class="owner owner-strat">STRAT</span><span class="task-text">Playbook Go2_First_Steps.yaml</span></div>
+        <div class="task todo"><span class="check">&#9744;</span><span class="owner owner-strat">STRAT</span><span class="task-text">Cluster Simulation_Memory</span></div>
+        <div class="task todo"><span class="check">&#9744;</span><span class="owner owner-dev">DEV</span><span class="task-text">Integrer playbook runner + SimAdapter</span></div>
+        <div class="task todo"><span class="check">&#9744;</span><span class="owner owner-dev">DEV</span><span class="task-text">Test E2E autonome Groq-Go2</span></div>
+
+        <div class="phase-badge phase-4" style="margin-top: 20px;">Phase 4 : Noeud Locomoteur</div>
+        <div class="task todo"><span class="check">&#9744;</span><span class="owner owner-dev">DEV</span><span class="task-text">Recherche go2_flat.pt (RL PPO)</span></div>
+        <div class="task todo"><span class="check">&#9744;</span><span class="owner owner-dev">DEV</span><span class="task-text">Coder Noeud Locomoteur</span></div>
+        <div class="task todo"><span class="check">&#9744;</span><span class="owner owner-spark">SPARK</span><span class="task-text">Lancer Noeud Locomoteur sur Spark</span></div>
+        <div class="task todo"><span class="check">&#9744;</span><span class="owner owner-dev">DEV</span><span class="task-text">E2E final : MonoCLI-Groq-Go2</span></div>
+    </div>
+
+    <!-- Sprint 2 Data Flow -->
+    <div class="card full-width">
+        <h2><span class="icon">SPRINT 2</span> Flux de Donnees — Cognitive Awakening</h2>
+        <div class="dataflow">
+            <div class="df-node df-groq">Groq API</div>
+            <div class="df-arrow">&#8594;</div>
+            <div class="df-node df-monocli">MonoCLI (Jedi Go2)</div>
+            <div class="df-arrow">&#8594;</div>
+            <div class="df-node df-monocli">mono_move_robot</div>
+            <div class="df-arrow">&#8594;</div>
+            <div class="df-node df-sim">SimAdapter</div>
+            <div class="df-arrow">&#8594;</div>
+            <div class="df-node df-sim">/cmd_vel</div>
+            <div class="df-arrow">&#8594;</div>
+            <div class="df-node df-loco">Noeud Locomoteur (RL PPO)</div>
+            <div class="df-arrow">&#8594;</div>
+            <div class="df-node df-isaac">Isaac Sim (Spark)</div>
+        </div>
+        <div style="margin-top: 16px; padding: 0 16px;">
+            <div class="dataflow" style="margin-bottom: 8px;">
+                <div class="df-node df-isaac">Isaac Sim</div>
+                <div class="df-arrow">&#8594;</div>
+                <div class="df-node df-isaac">/odom + /imu</div>
+                <div class="df-arrow">&#8594;</div>
+                <div class="df-node df-sim">SimAdapter</div>
+                <div class="df-arrow">&#8594;</div>
+                <div class="df-node df-monocli">mono_read_sensors</div>
+                <div class="df-arrow">&#8594;</div>
+                <div class="df-node df-monocli">MonoCLI</div>
+                <div class="df-arrow">&#8594;</div>
+                <div class="df-node df-groq">Groq (decision &lt;200ms)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Architecture 3 couches (updated for Sprint 2) -->
+    <div class="card full-width">
+        <h2><span class="icon">ARCH</span> Architecture 3 Couches + MonoCLI (Sprint 2)</h2>
+        <div class="arch-diagram">
+            <div class="arch-layer layer-cerveau">
+                <h3>COUCHE 1 : CERVEAU</h3>
+                <div class="layer-components">
+                    <div class="component sprint2">MonoCLI (Jedi Go2 Robotics)</div>
+                    <div class="component sprint2">Groq API (llama-3.3-70b, &lt;200ms)</div>
+                    <div class="component sprint2">Playbook Go2_First_Steps.yaml</div>
+                    <div class="component sprint2">Cluster Simulation_Memory</div>
+                </div>
+            </div>
+            <div class="arrow-down">&#9660; &#9660; &#9660;</div>
+            <div class="arrow-label">mono_move_robot(Twist) | mono_read_sensors() → JSON</div>
+
+            <div class="arch-layer layer-interface">
+                <h3>COUCHE 2 : INTERFACE CORPS — RobotAdapter (ABC)</h3>
+                <div class="layer-components">
+                    <div class="component" style="border-color: #64ffda44;">SimAdapter (Sprint 1 OK)</div>
+                    <div class="component" style="border-color: #ffd70044; opacity:0.5;">Go2Adapter (Robot reel) Phase 2</div>
+                </div>
+            </div>
+            <div class="arrow-down">&#9660; &#9660; &#9660;</div>
+            <div class="arrow-label">/cmd_vel (geometry_msgs/Twist) via ROS2 Jazzy FastDDS</div>
+
+            <div class="arch-layer layer-locomoteur">
+                <h3>NOEUD LOCOMOTEUR — Politique RL PPO (Isaac Lab 2.3.x)</h3>
+                <div class="layer-components">
+                    <div class="component sprint2">/cmd_vel → RL Policy → Torques 12 DOF</div>
+                    <div class="component sprint2">Modele: go2_flat.pt (PPO)</div>
+                </div>
+            </div>
+            <div class="arrow-down">&#9660; &#9660; &#9660;</div>
+            <div class="arrow-label">/joint_commands (Float64MultiArray) | Retour: /odom /tf /joint_states /imu /clock</div>
+
+            <div class="arch-layer layer-monde">
+                <h3>COUCHE 3 : MONDE — NVIDIA Isaac Sim 5.1.0 (Headless sur Spark)</h3>
+                <div class="layer-components">
+                    <div class="component">Go2 URDF (12 DOF, meshes DAE)</div>
+                    <div class="component">OmniGraph (pub/sub ROS2)</div>
+                    <div class="component">isaacsim.ros2.bridge</div>
+                    <div class="component">DGX Spark (GB10, 128GB)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stack technique -->
+    <div class="card">
+        <h2><span class="icon">STACK</span> Stack Technique</h2>
+        <table class="stack-table">
+            <thead>
+                <tr><th>Composant</th><th>Version</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>OS Spark</td><td class="version">Ubuntu 24.04 LTS (noble)</td></tr>
+                <tr><td>Architecture</td><td class="version">aarch64 (ARM GB10)</td></tr>
+                <tr><td>GPU</td><td class="version">NVIDIA GB10 Grace-Blackwell</td></tr>
+                <tr><td>Memoire</td><td class="version">128 GB unifiee</td></tr>
+                <tr><td>CUDA</td><td class="version">13.0</td></tr>
+                <tr><td>Python (venv)</td><td class="version">3.11.14</td></tr>
+                <tr><td>ROS2</td><td class="version">Jazzy Jalisco</td></tr>
+                <tr><td>Isaac Sim</td><td class="version">5.1.0 [all] aarch64</td></tr>
+                <tr><td>Isaac Lab</td><td class="version">2.3.2.post1</td></tr>
+                <tr><td>DDS</td><td class="version">FastDDS (rmw_fastrtps_cpp)</td></tr>
+                <tr><td>Bridge</td><td class="version">isaacsim.ros2.bridge</td></tr>
+                <tr><td>Robot</td><td class="version">Unitree Go2 EDU (12 DOF)</td></tr>
+                <tr><td>MonoCLI</td><td class="version">SQLite + Playbooks YAML<span class="new-tag">S2</span></td></tr>
+                <tr><td>LLM Cloud</td><td class="version">Groq API (llama-3.3-70b)<span class="new-tag">S2</span></td></tr>
+                <tr><td>LLM Local</td><td class="version">Ollama (qwen3-coder, Spark)<span class="new-tag">S2</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Infrastructure reseau -->
+    <div class="card">
+        <h2><span class="icon">NET</span> Infrastructure Reseau</h2>
+        <div class="network">
+            <div class="network-node node-spark">
+                <div class="node-icon">S</div>
+                <div class="node-info">
+                    <div class="name">DGX Spark (Serveur GPU)</div>
+                    <div class="details">
+                        <span><SPARK_IP></span> | panda@spark | Ubuntu 24.04 aarch64<br>
+                        Isaac Sim 5.1 headless | ROS2 Jazzy | 128GB RAM<br>
+                        Services: ComfyUI + LlamaServer + Ollama + Isaac Sim
+                    </div>
+                </div>
+            </div>
+            <div class="network-link">FastDDS UDP | Domain ID: 0 | Ports: 7400, 7410, 9387</div>
+            <div class="network-node node-mac">
+                <div class="node-icon">M</div>
+                <div class="node-info">
+                    <div class="name">Mac Studio (Dev & Agents)</div>
+                    <div class="details">
+                        <span><MAC_IP></span> | user | macOS Darwin<br>
+                        Agents: STRAT + DEV (tmux roboticprogramai_agents)<br>
+                        Kanban API: port 3010 | Projet 42 | MonoCLI
+                    </div>
+                </div>
+            </div>
+            <div class="network-link">Groq Cloud API (HTTPS, &lt;200ms latency)</div>
+            <div class="network-node node-vp" style="opacity: 0.4;">
+                <div class="node-icon">V</div>
+                <div class="node-info">
+                    <div class="name">Apple Vision Pro (Phase 3)</div>
+                    <div class="details">
+                        visionOS | WebRTC + rosbridge | Teleoperation
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MonoCLI Architecture (new for Sprint 2) -->
+    <div class="card full-width">
+        <h2><span class="icon">MONO</span> MonoCLI — Architecture Integration Sprint 2</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+            <div style="background: #0a0a0f; border: 1px solid #b47bff33; border-radius: 10px; padding: 16px;">
+                <h3 style="color: #b47bff; margin-top: 0;">Profil Jedi Go2</h3>
+                <div style="font-size: 12px; color: #8892b0; line-height: 1.6;">
+                    Table: <span style="color: #64ffda;">jedi_profiles</span><br>
+                    Model: Groq llama-3.3-70b<br>
+                    Skills: mono_read_sensors, mono_move_robot<br>
+                    Rules: Safety limits, workspace bounds
+                </div>
+            </div>
+            <div style="background: #0a0a0f; border: 1px solid #ffd70033; border-radius: 10px; padding: 16px;">
+                <h3 style="color: #ffd700; margin-top: 0;">Playbook YAML</h3>
+                <div style="font-size: 12px; color: #8892b0; line-height: 1.6;">
+                    Go2_First_Steps.yaml<br>
+                    Step 1: mono_read_sensors<br>
+                    Step 2: ask Groq (decide action)<br>
+                    Step 3: mono_move_robot<br>
+                    Step 4: log to Simulation_Memory
+                </div>
+            </div>
+            <div style="background: #0a0a0f; border: 1px solid #64ffda33; border-radius: 10px; padding: 16px;">
+                <h3 style="color: #64ffda; margin-top: 0;">Cluster Memory</h3>
+                <div style="font-size: 12px; color: #8892b0; line-height: 1.6;">
+                    Table: <span style="color: #64ffda;">clusters</span><br>
+                    Name: Simulation_Memory<br>
+                    Entries: doctrine, architecture, etat<br>
+                    Logs: positions, decisions, rewards
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    RoboticProgramAI — Sprint 2 : Cognitive Awakening | Kanban API : http://<MAC_IP>:3010 | Project 42 | 27 feb 2026
+</div>
+
+</body>
+</html>

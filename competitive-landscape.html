@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Companion Robotics — Landscape Concurrentiel 2026</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0a; color: #e0e0e0; font-family: 'Segoe UI', sans-serif; padding: 40px; max-width: 1400px; margin: 0 auto; }
+  h1 { color: #00ffcc; font-size: 32px; margin-bottom: 4px; }
+  .subtitle { color: #666; font-size: 14px; margin-bottom: 40px; }
+  h2 { color: #00ddff; font-size: 22px; margin: 40px 0 16px; border-bottom: 1px solid #222; padding-bottom: 8px; }
+  h3 { color: #ff8800; font-size: 16px; margin: 24px 0 8px; }
+
+  /* Hero section */
+  .hero {
+    background: linear-gradient(135deg, #0d1f1a 0%, #0a0a1a 100%);
+    border: 1px solid #00ffcc33;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  .hero h2 { border: none; margin: 0 0 12px; color: #00ffcc; font-size: 24px; }
+  .hero p { color: #aaa; font-size: 15px; line-height: 1.8; max-width: 800px; margin: 0 auto; }
+  .hero strong { color: #fff; }
+
+  /* Comparison table */
+  .table-wrap { overflow-x: auto; margin: 20px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #111; color: #00ddff; padding: 12px 10px; text-align: left; border-bottom: 2px solid #00ffcc44; position: sticky; top: 0; }
+  td { padding: 10px; border-bottom: 1px solid #1a1a1a; vertical-align: top; }
+  tr:hover td { background: #111; }
+  tr.us td { background: #0d1f1a !important; border-left: 3px solid #00ffcc; }
+  tr.us td:first-child { font-weight: bold; color: #00ffcc; }
+  .yes { color: #00ff88; }
+  .no { color: #ff4444; }
+  .partial { color: #ffaa00; }
+  .dead { color: #666; text-decoration: line-through; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .tag-product { background: #1a3a1a; color: #00ff88; }
+  .tag-research { background: #1a1a3a; color: #6688ff; }
+  .tag-dead { background: #2a1a1a; color: #ff4444; }
+  .tag-demo { background: #2a2a1a; color: #ffaa00; }
+  .tag-us { background: #003333; color: #00ffcc; border: 1px solid #00ffcc; }
+
+  /* Cards */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 16px; margin: 20px 0; }
+  .card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .card:hover { border-color: #333; }
+  .card h4 { color: #00ddff; font-size: 16px; margin-bottom: 4px; }
+  .card .price { color: #ff8800; font-size: 13px; margin-bottom: 10px; }
+  .card p { color: #999; font-size: 13px; line-height: 1.6; }
+  .card .caps { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .cap { padding: 3px 8px; border-radius: 4px; font-size: 11px; background: #1a1a2e; color: #888; }
+  .cap.on { background: #0d2d1d; color: #00ff88; }
+
+  /* Insights */
+  .insight {
+    background: #0d0d1a;
+    border: 1px solid #222;
+    border-left: 3px solid #ff8800;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 12px 0;
+  }
+  .insight strong { color: #ff8800; }
+  .insight p { color: #bbb; font-size: 14px; line-height: 1.6; margin-top: 6px; }
+
+  /* Our system section */
+  .our-system {
+    background: linear-gradient(135deg, #001a1a 0%, #0a0a1a 100%);
+    border: 2px solid #00ffcc44;
+    border-radius: 16px;
+    padding: 32px;
+    margin: 40px 0;
+  }
+  .our-system h2 { color: #00ffcc; border: none; margin-top: 0; }
+  .stack { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 20px 0; }
+  .stack-item {
+    background: #0a1a1a;
+    border: 1px solid #00ffcc33;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stack-item .icon { font-size: 28px; margin-bottom: 8px; }
+  .stack-item h4 { color: #00ffcc; font-size: 14px; margin-bottom: 6px; }
+  .stack-item p { color: #888; font-size: 12px; line-height: 1.5; }
+
+  .vs-table { width: 100%; margin: 20px 0; }
+  .vs-table th { background: #0d1f1a; color: #00ffcc; }
+  .vs-table td { font-size: 13px; }
+
+  .footer { color: #444; font-size: 12px; margin-top: 40px; padding-top: 20px; border-top: 1px solid #1a1a1a; }
+  .footer a { color: #00aaff; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<h1>Companion Robotics 2026</h1>
+<p class="subtitle">Landscape concurrentiel + positionnement Infinity Cloud / RoboticProgramAI</p>
+
+<!-- HERO -->
+<div class="hero">
+  <h2>Personne ne fait ce qu'on fait</h2>
+  <p>
+    Aucun acteur ne combine un <strong>quadrupede mobile</strong> (Unitree Go2)
+    + <strong>perception VLM</strong> (Groq Maverick)
+    + <strong>cerveau cognitif LLM</strong>
+    + <strong>memoire persistante entre sessions</strong> (Scribe/KB)
+    + <strong>sim-to-real</strong> (Isaac Sim)
+    pour le <strong>companion care</strong> des personnes agees.
+    <br><br>
+    Le marche est de <strong>$3.14B</strong> en 2025, projete a <strong>$10B+</strong> en 2035 (12.5% CAGR).
+    La categorie "companion mobile cognitif" n'a pas de leader.
+  </p>
+</div>
+
+<!-- MAIN COMPARISON TABLE -->
+<h2>Tableau comparatif</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th style="min-width:140px">Acteur</th>
+      <th>Robot</th>
+      <th>Mobile</th>
+      <th>VLM/VLA</th>
+      <th>Memoire</th>
+      <th>LLM Brain</th>
+      <th>Sim2Real</th>
+      <th>Statut</th>
+      <th>Prix</th>
+      <th>Elderly Care</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="us">
+      <td>Infinity Cloud (nous)</td>
+      <td>Unitree Go2</td>
+      <td class="yes">OUI</td>
+      <td class="yes">Groq Maverick</td>
+      <td class="yes">Scribe/KB loop</td>
+      <td class="yes">OUI</td>
+      <td class="yes">Isaac Sim</td>
+      <td><span class="tag tag-us">EN DEV</span></td>
+      <td>Go2 ~$2.8k</td>
+      <td class="yes"><strong>OUI — FOCUS</strong></td>
+    </tr>
+    <tr>
+      <td>Google DeepMind</td>
+      <td>Gemini Robotics</td>
+      <td class="partial">Via robot</td>
+      <td class="yes">VLA #1 mondial</td>
+      <td class="no">Non</td>
+      <td class="yes">Gemini 2.0</td>
+      <td class="yes">MuJoCo</td>
+      <td><span class="tag tag-research">API preview</span></td>
+      <td>N/A</td>
+      <td class="no">Non</td>
+    </tr>
+    <tr>
+      <td>Boston Dynamics</td>
+      <td>Spot</td>
+      <td class="yes">GraphNav</td>
+      <td class="no">Non</td>
+      <td class="no">Non</td>
+      <td class="no">Non</td>
+      <td class="no">Non</td>
+      <td><span class="tag tag-product">Produit</span></td>
+      <td>$75k+</td>
+      <td class="partial">Minimal</td>
+    </tr>
+    <tr>
+      <td>Unitree</td>
+      <td>Go2 / G1</td>
+      <td class="yes">RL locomotion</td>
+      <td class="partial">UnifoLM-VLA (G1)</td>
+      <td class="no">SDK only</td>
+      <td class="no">SDK only</td>
+      <td class="yes">Isaac</td>
+      <td><span class="tag tag-product">Produit</span></td>
+      <td>$1.6-74k</td>
+      <td class="no">Non (nous le faisons)</td>
+    </tr>
+    <tr>
+      <td>Intuition Robotics</td>
+      <td>ElliQ</td>
+      <td class="no"><strong>NON</strong></td>
+      <td class="no">Non</td>
+      <td class="yes"><strong>OUI</strong></td>
+      <td class="yes">OUI</td>
+      <td class="no">Non</td>
+      <td><span class="tag tag-product">Produit</span></td>
+      <td>$249 + abo</td>
+      <td class="yes"><strong>OUI — leader</strong></td>
+    </tr>
+    <tr>
+      <td>Fourier Intelligence</td>
+      <td>GR-3</td>
+      <td class="yes">Humanoide</td>
+      <td class="yes">Multimodal</td>
+      <td class="partial">?</td>
+      <td class="yes">Hybride</td>
+      <td class="partial">?</td>
+      <td><span class="tag tag-demo">Demo CES</span></td>
+      <td>$50k+ est.</td>
+      <td class="yes">OUI (design)</td>
+    </tr>
+    <tr>
+      <td>Physical Intelligence</td>
+      <td>pi0 / pi0.5</td>
+      <td class="partial">Via robot</td>
+      <td class="yes">VLA 3B</td>
+      <td class="no">Non</td>
+      <td class="yes">OUI</td>
+      <td class="yes">Oui</td>
+      <td><span class="tag tag-research">Recherche</span></td>
+      <td>N/A</td>
+      <td class="no">Non</td>
+    </tr>
+    <tr>
+      <td>Figure AI</td>
+      <td>Figure 03</td>
+      <td class="yes">Humanoide</td>
+      <td class="yes">Helix AI</td>
+      <td class="partial">?</td>
+      <td class="yes">OUI</td>
+      <td class="partial">?</td>
+      <td><span class="tag tag-demo">Annonce 2026</span></td>
+      <td>~$20k cible</td>
+      <td class="partial">Futur</td>
+    </tr>
+    <tr>
+      <td>Toyota</td>
+      <td>HSR</td>
+      <td class="yes">OUI</td>
+      <td class="partial">R&D</td>
+      <td class="partial">R&D</td>
+      <td class="partial">R&D</td>
+      <td class="yes">Oui</td>
+      <td><span class="tag tag-research">Recherche</span></td>
+      <td>N/A</td>
+      <td class="partial">Voulu (10 ans)</td>
+    </tr>
+    <tr>
+      <td>Sony</td>
+      <td>Aibo</td>
+      <td class="partial">Basique</td>
+      <td class="no">Non</td>
+      <td class="partial">Cloud basic</td>
+      <td class="no">Non</td>
+      <td class="no">Non</td>
+      <td><span class="tag tag-product">Produit</span></td>
+      <td>$3k + abo</td>
+      <td class="partial">Emotionnel</td>
+    </tr>
+    <tr>
+      <td>Hyodol (Coree)</td>
+      <td>Poupee IA</td>
+      <td class="no"><strong>NON</strong></td>
+      <td class="no">Non</td>
+      <td class="partial">Basic</td>
+      <td class="yes">ChatGPT</td>
+      <td class="no">Non</td>
+      <td><span class="tag tag-product">Produit</span></td>
+      <td>$879</td>
+      <td class="yes">OUI (12k deployes)</td>
+    </tr>
+    <tr>
+      <td>SoftBank</td>
+      <td><span class="dead">Pepper</span></td>
+      <td class="dead">Basique</td>
+      <td class="no">Non</td>
+      <td class="no">Non</td>
+      <td class="no">Non</td>
+      <td class="no">Non</td>
+      <td><span class="tag tag-dead">Mort</span></td>
+      <td>N/A</td>
+      <td class="dead">Etait deploye</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- KEY PLAYERS -->
+<h2>Acteurs cles</h2>
+<div class="cards">
+
+  <div class="card">
+    <h4>ElliQ (Intuition Robotics)</h4>
+    <div class="price">$249 + $30-59/mois | Israel/US</div>
+    <p>
+      LE benchmark companion care. 94% reduction solitude, 97% bien-etre.
+      Robot de table (pas mobile) avec conversation proactive, rappels medicaments,
+      exercices cognitifs. <strong>Memoire conversationnelle persistante</strong> = leur force.
+      Expansion Japon 2026 (Kanematsu). $25M leves.
+    </p>
+    <p style="margin-top:8px; color:#ff8800">
+      <strong>Limite fatale :</strong> PAS MOBILE. Ne peut pas patrouiller, detecter une chute,
+      ou naviguer dans la maison.
+    </p>
+    <div class="caps">
+      <span class="cap on">Memoire</span>
+      <span class="cap on">LLM</span>
+      <span class="cap on">Proactif</span>
+      <span class="cap">Mobilite</span>
+      <span class="cap">VLM</span>
+      <span class="cap">Sim2Real</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4>Gemini Robotics (Google DeepMind)</h4>
+    <div class="price">API preview | Pas de robot propre</div>
+    <p>
+      Le VLA le plus avance au monde. Plie des vetements, assemble des pieces, s'adapte
+      a des robots inconnus avec 50-100 demos. Gemini Robotics 1.5 "reflechit avant d'agir".
+      Version On-Device pour controle temps reel local.
+    </p>
+    <p style="margin-top:8px; color:#ff8800">
+      <strong>Pas de produit, pas de care.</strong> C'est un modele, pas une solution.
+      Pas de memoire inter-sessions.
+    </p>
+    <div class="caps">
+      <span class="cap on">VLA #1</span>
+      <span class="cap on">LLM</span>
+      <span class="cap on">Sim2Real</span>
+      <span class="cap">Memoire</span>
+      <span class="cap">Care</span>
+      <span class="cap">Produit</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4>Fourier GR-3</h4>
+    <div class="price">~$50k+ est. | CES 2026</div>
+    <p>
+      Premier humanoide explicitement concu pour le care. 165cm, 55 DoF,
+      micro-expressions, suivi oculaire, 31 capteurs tactiles.
+      Architecture hybride : reflexes rapides + raisonnement LLM.
+      <strong>Concurrent le plus direct</strong> en intention.
+    </p>
+    <p style="margin-top:8px; color:#ff8800">
+      <strong>Humanoide = cher + complexe.</strong> Demo seulement. Pas deploye.
+      Notre Go2 coute 20x moins et marche aujourd'hui.
+    </p>
+    <div class="caps">
+      <span class="cap on">Mobile</span>
+      <span class="cap on">VLM</span>
+      <span class="cap on">LLM</span>
+      <span class="cap on">Care</span>
+      <span class="cap">Memoire</span>
+      <span class="cap">Produit</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4>Physical Intelligence (pi0)</h4>
+    <div class="price">$600M leves | Recherche</div>
+    <p>
+      VLA 3B parametres, 10k+ heures de donnees reelles, 7 robots, 68 taches.
+      pi0.5 generalise a des maisons/bureaux jamais vus. Nettoie des cuisines,
+      plie du linge. Le plus proche d'un "cerveau robot universel".
+    </p>
+    <p style="margin-top:8px; color:#ff8800">
+      <strong>Focus manipulation, pas care.</strong> Pas de memoire, pas de companion.
+    </p>
+    <div class="caps">
+      <span class="cap on">VLA</span>
+      <span class="cap on">LLM</span>
+      <span class="cap on">Multi-robot</span>
+      <span class="cap">Memoire</span>
+      <span class="cap">Care</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4>Boston Dynamics Spot</h4>
+    <div class="price">$75,000+ | Produit depuis 2020</div>
+    <p>
+      Le quadrupede le plus mature. Navigation autonome GraphNav, escaliers,
+      auto-redressement, recharge autonome. Deploye massivement en industrie.
+      Essai COVID en hopital (MIT) mais aucun produit care.
+    </p>
+    <p style="margin-top:8px; color:#ff8800">
+      <strong>Industriel, pas cognitif.</strong> Pas de VLM, pas de LLM, pas de memoire.
+      27x le prix de notre Go2.
+    </p>
+    <div class="caps">
+      <span class="cap on">Navigation #1</span>
+      <span class="cap on">Produit</span>
+      <span class="cap">VLM</span>
+      <span class="cap">LLM</span>
+      <span class="cap">Memoire</span>
+      <span class="cap">Care</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4>Hyodol (Coree du Sud)</h4>
+    <div class="price">$879 | 12,000+ deployes</div>
+    <p>
+      Poupee IA ressemblant a un enfant de 7 ans. Deploye massivement en Coree
+      via programmes gouvernementaux. ChatGPT pour la conversation, rappels medicaments,
+      tests cognitifs, alerte si inactivite 24h. Vise les US en 2026.
+    </p>
+    <p style="margin-top:8px; color:#ff8800">
+      <strong>Pas mobile, pas de vision.</strong> Companion emotionnel uniquement.
+    </p>
+    <div class="caps">
+      <span class="cap on">LLM</span>
+      <span class="cap on">Care</span>
+      <span class="cap on">Deploye</span>
+      <span class="cap">Mobilite</span>
+      <span class="cap">VLM</span>
+      <span class="cap">Memoire</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- OUR SYSTEM -->
+<div class="our-system">
+  <h2>Notre systeme — Infinity Cloud / RoboticProgramAI</h2>
+  <p style="color:#aaa; margin-bottom:20px; font-size:14px;">
+    Robot companion cognitif pour personnes agees. Quadrupede Unitree Go2 + cerveau LLM + perception VLM + memoire persistante.
+  </p>
+
+  <div class="stack">
+    <div class="stack-item">
+      <div class="icon">🤖</div>
+      <h4>Corps — Unitree Go2</h4>
+      <p>Quadrupede agile, $2,800 (Pro).<br>RL locomotion PPO (Isaac Sim).<br>12 joints, 4 pattes, ne tombe pas.</p>
+    </div>
+    <div class="stack-item">
+      <div class="icon">🧠</div>
+      <h4>Cerveau — LLM + VLM</h4>
+      <p>Orchestrateur LLM decide les actions.<br>Groq Maverick VLM (0.92s) pour la vision.<br>7 commandes: goto, look, sense, turn...</p>
+    </div>
+    <div class="stack-item">
+      <div class="icon">💾</div>
+      <h4>Memoire — Scribe/KB</h4>
+      <p>Run &rarr; logs &rarr; Scribe &rarr; KB.<br>294 entries, 15 clusters.<br>Injecte au demarrage de chaque run.</p>
+    </div>
+    <div class="stack-item">
+      <div class="icon">🏗️</div>
+      <h4>Simulation — Isaac Sim</h4>
+      <p>Nvidia DGX Spark.<br>Scene hospital 25x15m.<br>PhysX + RL policy sim-to-real.</p>
+    </div>
+    <div class="stack-item">
+      <div class="icon">👁️</div>
+      <h4>Viewer — Tron 3D</h4>
+      <p>Three.js temps reel (WebSocket).<br>Style Tron hybride.<br>3 modes: STICK / REAL / SKIN.</p>
+    </div>
+    <div class="stack-item">
+      <div class="icon">📱</div>
+      <h4>App — Swift MissionControl</h4>
+      <p>Epreuves Jedi (Rang I-V).<br>Lancement en un clic.<br>Resultats live dans l'app.</p>
+    </div>
+  </div>
+
+  <h3>Ce que nous avons prouve</h3>
+  <div class="table-wrap">
+  <table class="vs-table">
+    <thead>
+      <tr><th>Rang</th><th>Epreuve</th><th>Resultat</th><th>Detail</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>I — Youngling</td><td>Va voir le docteur</td><td class="yes">PASS</td><td>8/8, 0.112m, 0 chutes</td></tr>
+      <tr><td>II — Padawan</td><td>Regarde et comprends</td><td class="yes">PASS</td><td>16.3m, 4 WP, 0.348m, 150s</td></tr>
+      <tr><td>III — Chevalier</td><td>Ou est le docteur?</td><td class="partial">BLOQUE</td><td>Camera 503 (fix en cours)</td></tr>
+      <tr><td>IV — Maitre</td><td>A definir</td><td>-</td><td>Decision autonome complete</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- KEY INSIGHTS -->
+<h2>5 insights strategiques</h2>
+
+<div class="insight">
+  <strong>1. Le trou dans le marche = mobilite + cognition + care</strong>
+  <p>ElliQ prouve la demande (94% reduction solitude) mais ne bouge pas. Spot bouge mais ne pense pas. Personne ne fait les deux + care.</p>
+</div>
+
+<div class="insight">
+  <strong>2. La memoire persistante est notre avantage unique</strong>
+  <p>Presque aucun systeme deploye n'apprend entre les sessions. ElliQ a de la memoire conversationnelle. Notre boucle Scribe/KB est plus profonde : le robot apprend de ses ACTIONS (navigation, perception, decisions), pas juste des mots.</p>
+</div>
+
+<div class="insight">
+  <strong>3. La vague VLA ne cible pas le care</strong>
+  <p>Gemini Robotics, pi0, OpenVLA, GR00T — tous focalisent sur la manipulation (plier, assembler). Le companion care (patrouiller, detecter une absence, rappeler un medicament, accompagner) est un angle mort.</p>
+</div>
+
+<div class="insight">
+  <strong>4. Notre cout est imbattable</strong>
+  <p>Go2 Pro a $2,800 vs Spot a $75k vs GR-3 a $50k+ vs Figure 03 a $20k. On construit sur le hardware le moins cher ET le plus accessible du marche.</p>
+</div>
+
+<div class="insight">
+  <strong>5. Sim-to-real + LLM = la bonne architecture</strong>
+  <p>NVIDIA investit massivement dans Isaac + GR00T. Google fait Gemini Robotics. La convergence simulation + foundation models est LE paradigme 2026. On est sur le bon rail.</p>
+</div>
+
+<!-- SOURCES -->
+<div class="footer">
+  <p><strong>Sources</strong> (Mars 2026) :
+    <a href="https://deepmind.google/models/gemini-robotics/">Gemini Robotics</a> |
+    <a href="https://bostondynamics.com/products/spot/">Spot</a> |
+    <a href="https://www.unitree.com/go2/">Unitree Go2</a> |
+    <a href="https://elliq.com/">ElliQ</a> |
+    <a href="https://www.prnewswire.com/news-releases/fourier-makes-ces-debut-with-gr-3-302654565.html">Fourier GR-3</a> |
+    <a href="https://www.physicalintelligence.company/">pi0</a> |
+    <a href="https://www.figure.ai/">Figure AI</a> |
+    <a href="https://en.hyodol.com/">Hyodol</a> |
+    <a href="https://openvla.github.io/">OpenVLA</a> |
+    <a href="https://research.nvidia.com/publication/2025-03_nvidia-isaac-gr00t-n1-open-foundation-model-humanoid-robots">GR00T N1</a> |
+    <a href="https://sites.google.com/view/memagent-iclr26/">MemAgents ICLR 2026</a>
+  </p>
+  <p style="margin-top:8px">Infinity Cloud Sarl — Geneve — RoboticProgramAI — Projet ID 38</p>
+</div>
+
+</body>
+</html>
