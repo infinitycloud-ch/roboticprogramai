@@ -1,5 +1,9 @@
 # RoboticProgramAI
 
+<p align="center">
+  <img src="assets/cover.png" width="700" alt="RoboticProgramAI">
+</p>
+
 A cognitive robotics framework where autonomous AI agents control a Unitree Go2 quadruped in NVIDIA Isaac Sim — with persistent memory, reinforcement learning locomotion, and measurable cognitive evolution across runs.
 
 ![Isaac Sim](https://img.shields.io/badge/Isaac_Sim-5.1.0-76B900?logo=nvidia)
